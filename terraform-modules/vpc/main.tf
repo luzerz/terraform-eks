@@ -29,7 +29,6 @@ module "vpc" {
   enable_dns_hostnames = true
   tags = {
     "kubernetes.io/cluster/${var.env}-cluster" = "shared"
-    Terraform   = "true"
     Environment = var.env
   }
 

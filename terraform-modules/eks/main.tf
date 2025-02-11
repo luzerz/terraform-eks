@@ -35,11 +35,11 @@ module "eks" {
   }
   access_entries = {
     "root" = {
-      principal_arn = "arn:aws:iam::588738597061:root"
+      principal_arn = "arn:aws:iam::<ACCOUNT>:<USER>"
       type          = "STANDARD"
       kubernetes_groups = ["masters"]
     }
-  }
+  } // TOBE REPLACE THSI
   cluster_addons = {
     coredns = {
       resolve_conflicts = "OVERWRITE"
@@ -54,7 +54,6 @@ module "eks" {
 
   tags = {
     Environment = each.value.environment
-    Terraform   = "true"
   }
 }
 
@@ -69,6 +68,5 @@ module "karpenter" {
 
   tags = {
     Environment = each.value.environment
-    Terraform   = "true"
   }
 }
