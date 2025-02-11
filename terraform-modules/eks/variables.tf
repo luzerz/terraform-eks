@@ -1,17 +1,37 @@
 variable "region" {}
-variable "env" {}
-variable "cluster_name" {}
-variable "cluster_version" {
-  type = string
-  default = "1.29"
-}
-variable "node_groups" {
-  description = "EKS managed node groups"
+
+variable "eks_clusters" {
+  description = "Map of EKS clusters and their configurations"
   type = map(object({
-    min_size     = number
-    max_size     = number
-    desired_size = number
-    instance_types = list(string)
-    capacity_type  = string
+    cluster_name    = string
+    cluster_version = string
+    vpc_id          = string
+    subnet_ids      = list(string)
+    environment     = string
+    node_groups     = map(object({
+      instance_types = list(string)
+      min_size       = number
+      max_size       = number
+      desired_size   = number
+      capacity_type  = string
+    }))
+  }))
+}
+
+variable "irsa_roles" {
+  description = "IAM Roles for Service Accounts in EKS clusters"
+  type = map(object({
+    name            = string
+    cluster_key     = string # Matches key in `eks_clusters`
+    namespace       = string
+    service_account = string
+    policies        = list(object({
+      name       = string
+      statements = list(object({
+        Effect   = string
+        Action   = list(string)
+        Resource = list(string)
+      }))
+    }))
   }))
 }

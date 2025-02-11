@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 5.86.0"
     }
   }
 }
@@ -15,7 +15,7 @@ provider "aws" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.1.1"
+  version = "5.18.1"
 
   name = var.vpc_name
   cidr = var.vpc_cidr
@@ -27,9 +27,19 @@ module "vpc" {
   enable_nat_gateway   = true
   enable_vpn_gateway   = false
   enable_dns_hostnames = true
-
   tags = {
+    "kubernetes.io/cluster/${var.env}-cluster" = "shared"
     Terraform   = "true"
     Environment = var.env
+  }
+
+  public_subnet_tags = {
+    "kubernetes.io/cluster/${var.env}-cluster" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${var.env}-cluster" = "shared"
+    "kubernetes.io/role/internal-elb"             = "1"
   }
 }
