@@ -1,0 +1,30 @@
+# Terraform & Terragrunt directories
+.terraform/
+.terraform.lock.hcl
+.terragrunt-cache/
+
+# Terraform state files (DO NOT COMMIT STATE FILES!)
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate.*
+*.backup
+
+# Ignore sensitive files (e.g., AWS credentials, environment variables)
+*.env
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+!example.tfvars  # Keep an example of the tfvars file
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore logs & debug files
+*.log
+*.out
+*.bak
+*.tmp
